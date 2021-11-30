@@ -27,6 +27,10 @@ impl Processor {
                 msg!("Instruction InitEscrow: {}", amount);
                 Self::process_init_escrow(accounts, amount, program_id)
             }
+            EscrowInstruction::Exchange { amount } => {
+                msg!("Instruction: Exchange");
+                Self::process_exchange(accounts, amount, program_id)
+            }
         }
     }
 

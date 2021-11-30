@@ -120,6 +120,7 @@ const alice = async () => {
   ) as EscrowLayout;
 
   if (!decodedEscrowState.isInitialized) {
+    logError("encodeed escrow state" + encodedEscrowState);
     logError("Escrow state initialization flag has not been set");
     process.exit(1);
   } else if (

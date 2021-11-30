@@ -19,6 +19,11 @@ pub enum EscrowInstruction {
         /// The amount party A expects to receive of token Y
         amount: u64,
     },
+
+    Exchange {
+        /// the amount the taker expects to be paid in the other token, as a u64 because that's the max possible supply of a token
+        amount: u64,
+    },
 }
 
 impl EscrowInstruction {
@@ -27,6 +32,9 @@ impl EscrowInstruction {
 
         Ok(match tag {
             0 => Self::InitEscrow {
+                amount: Self::unpack_amount(rest)?,
+            },
+            1 => Self::Exchange {
                 amount: Self::unpack_amount(rest)?,
             },
             _ => return Err(InvalidInstruction.into()),
@@ -39,7 +47,6 @@ impl EscrowInstruction {
             .and_then(|slice| slice.try_into().ok())
             .map(u64::from_le_bytes)
             .ok_or(InvalidInstruction)?;
-
         Ok(amount)
     }
 }
